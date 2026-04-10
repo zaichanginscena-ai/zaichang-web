@@ -1,0 +1,8 @@
+{
+  "name": "zaichang-inscena-web",
+  "version": "1.0.0",
+  "description": "在场InScena 米兰设计周导览网页版",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}

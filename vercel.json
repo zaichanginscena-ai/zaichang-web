@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "public/index.html", "use": "@vercel/static" },
+    { "src": "api/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/create-checkout", "dest": "/api/create-checkout.js" },
+    { "src": "/api/webhook", "dest": "/api/webhook.js" },
+    { "src": "/api/check-access", "dest": "/api/check-access.js" },
+    { "src": "/(.*)", "dest": "/public/index.html" }
+  ]
+}
