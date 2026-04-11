@@ -366,7 +366,7 @@ async function checkAccess() {
   const sessionId = urlParams.get('session_id') || localStorage.getItem('stripeSessionId');
   if (!sessionId) return;
   try {
-    const r = await fetch('https://api.zaichang-advisory.comhttps://api.zaichang-advisory.com/api/check-access?session_id=' + sessionId);
+    const r = await fetch('https://api.zaichang-advisory.com/api/check-access?session_id=' + sessionId);
     const data = await r.json();
     if (data.tier) {
       userTier = data.tier;
@@ -379,7 +379,7 @@ async function checkAccess() {
 
 async function startCheckout(tier) {
   try {
-    const r = await fetch('https://api.zaichang-advisory.comhttps://api.zaichang-advisory.com/api/create-checkout', {
+    const r = await fetch('https://api.zaichang-advisory.com/api/create-checkout', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ tier })
