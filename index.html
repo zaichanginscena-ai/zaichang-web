@@ -564,7 +564,35 @@ async function renderDaily() {
     el.innerHTML = '<div class="loading-text">加载失败，请稍后再试</div>';
   }
 }
+async function loadAndRenderAnalysis() {
+  const el = document.getElementById('analysis-list');
+  el.innerHTML = '<div class="loading-text">加载中…</div>';
+  const now = new Date();
+  const releaseDate = new Date('2026-05-10T12:00:00');
+  const isReleased = now >= releaseDate;
+  const isPremium = userTier === 'premium';
+  const canAccess = isPremium && isReleased;
+  let html = '';
+  if (!isPremium) {
+    html += `<div style="background:linear-gradient(135deg,#2d4a3e,#5a7a6d);border-radius:16px;padding:24px;text-align:center;color:#fff;margin-bottom:16px"><div style="font-size:32px;margin-bottom:10px">🔒</div><div style="font-size:16px;font-weight:500;margin-bottom:8px">PREMIUM专享内容</div><div style="font-size:12px;opacity:0.85;margin-bottom:16px">升级至PREMIUM会员，解锁趋势报告和业内专家深度评论</div><button onclick="switchTab('me')" style="background:#fff;color:#2d4a3e;border:none;border-radius:10px;padding:10px 24px;font-size:13px;font-weight:500;cursor:pointer">立即升级 €45.9</button></div>`;
+  }
+  if (isPremium && !isReleased) {
+    html += `<div style="background:linear-gradient(135deg,#d97706,#f59e0b);border-radius:16px;padding:20px;text-align:center;color:#fff;margin-bottom:16px"><div style="font-size:28px;margin-bottom:8px">⏰</div><div style="font-size:15px;font-weight:500;margin-bottom:6px">内容即将发布</div><div style="font-size:13px;opacity:0.9;margin-bottom:4px">深度解析内容将于以下时间开放：</div><div style="font-size:16px;margin-bottom:8px">2026年5月10日 12:00</div></div>`;
+  }
+  html += `<div style="background:#fff;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 3px 12px rgba(61,82,72,0.05)"><div style="background:linear-gradient(135deg,#2d4a3e,#5a7a6d);padding:20px;color:#fff"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span>📈</span><span style="font-size:9px;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3)">PREMIUM</span><span style="font-size:9px;padding:2px 8px;border-radius:8px;background:rgba(217,119,6,0.3);border:1px solid rgba(245,158,11,0.4)">定时发布</span></div><div style="font-size:15px;font-weight:500;margin-bottom:5px">2026 Salone del Mobile 设计趋势报告</div><div style="font-size:11px;opacity:0.85;margin-bottom:10px">Salone del Mobile 2026 Trend Report</div><div style="font-size:11px;opacity:0.85">设计趋势研究院 · 2026年5月10日发布 · 📖 20分钟</div></div><div style="padding:16px"><p style="font-size:12px;color:#6d8074;line-height:1.7;margin-bottom:12px">深入解析2026年米兰国际家具展的五大核心趋势：可持续设计革命、数字化与AI融合、新材料探索、情感化设计回归、以及东方美学崛起。</p><div style="border-top:1px solid rgba(90,122,109,0.1);padding-top:12px;text-align:center;font-size:12px;color:#8a9a8e">${canAccess ? '<button style="width:100%;background:#2d4a3e;color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;cursor:pointer">阅读完整报告</button>' : !isPremium ? '🔒 升级PREMIUM会员阅读完整报告' : '⏰ 2026年5月10日 12:00 后可查看'}</div></div></div>`;
+  const experts = [
+    {avatar:'MB',name:'Marco Bellini',role:'意大利家具设计协会主席',title:'从Salone看全球家具设计的范式转移',subtitle:'The Paradigm Shift in Global Furniture Design',excerpt:'今年的Salone del Mobile标志着整个行业从"产品导向"向"体验导向"的深刻转型...',topics:['行业趋势','商业模式','设计哲学'],time:'12分钟'},
+    {avatar:'EM',name:'Dr. Elena Marchetti',role:'米兰理工大学可持续设计教授',title:'可持续设计：从口号到行动的关键一年',subtitle:'Sustainable Design: From Slogan to Action',excerpt:'2026年终于成为可持续设计真正落地的转折点，超过60%的参展品牌展示了可验证的碳中和产品线...',topics:['可持续发展','材料创新','循环经济'],time:'15分钟'},
+    {avatar:'KY',name:'Kenji Yamamoto',role:'日本设计中心艺术总监',title:'东方设计语言的国际化表达',subtitle:'Eastern Design Language on Global Stage',excerpt:'今年Salone最令人惊喜的现象，是东亚设计师群体的集体崛起...',topics:['文化交融','设计语言','国际视野'],time:'10分钟'},
+  ];
+  html += `<div style="margin-bottom:12px"><div style="font-size:15px;font-weight:500;color:#3d5248;margin-bottom:3px">业内人士深度评论</div><div style="font-size:11px;color:#8a9a8e">Expert Reviews & Commentary</div></div>`;
+  html += experts.map(e => `<div style="background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 3px 12px rgba(61,82,72,0.04)"><div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px"><div style="width:44px;height:44px;border-radius:50%;background:rgba(45,74,62,0.1);display:flex;align-items:center;justify-content:center;font-size:12px;color:#2d4a3e;flex-shrink:0">${e.avatar}</div><div style="flex:1"><div style="font-size:13px;font-weight:500;color:#3d5248;margin-bottom:3px">${e.name}</div><div style="font-size:11px;color:#8a9a8e">${e.role}</div></div></div><div style="font-size:13px;font-weight:500;color:#3d5248;margin-bottom:3px">${e.title}</div><div style="font-size:11px;color:#8a9a8e;margin-bottom:10px">${e.subtitle}</div><div style="font-size:12px;color:#6d8074;line-height:1.6;margin-bottom:10px">${e.excerpt}</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">${e.topics.map(t=>`<span style="font-size:10px;padding:3px 10px;border-radius:20px;background:#f0f2ef;color:#5c6b62">${t}</span>`).join('')}</div><div style="border-top:1px solid rgba(90,122,109,0.08);padding-top:10px;text-align:center;font-size:12px;color:#8a9a8e">${canAccess ? '<button style="width:100%;background:transparent;border:1px solid rgba(90,122,109,0.2);border-radius:10px;padding:8px;font-size:12px;color:#3d5248;cursor:pointer">阅读全文</button>' : !isPremium ? '🔒 PREMIUM会员可阅读全文' : '⏰ 2026年5月10日后可查看'}</div></div>`).join('');
+  el.innerHTML = html;
+}
 
+function renderAnalysis() {
+  loadAndRenderAnalysis();
+}
 // ── Toast ──
 function showToast(msg) {
   const t = document.getElementById('toast');
