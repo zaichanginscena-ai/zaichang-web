@@ -1,9 +1,14 @@
 {
   "version": 2,
+  "functions": {
+    "api/*.js": {
+      "runtime": "@vercel/node"
+    }
+  },
   "routes": [
-    { "src": "/api/create-checkout", "dest": "/create-checkout.js" },
-    { "src": "/api/webhook", "dest": "/webhook.js" },
-    { "src": "/api/check-access", "dest": "/check-access.js" },
+    { "src": "/api/create-checkout", "dest": "/api/create-checkout.js" },
+    { "src": "/api/check-access", "dest": "/api/check-access.js" },
+    { "src": "/api/webhook", "dest": "/api/webhook.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
