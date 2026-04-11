@@ -519,23 +519,6 @@ function renderRoutes() {
 }
 function toggleRStar(e, id) { e.stopPropagation(); routeStars[id] = !routeStars[id]; e.target.classList.toggle('on', routeStars[id]) }
 
-// ── 每日计划 ──
-const DAILY_PLANS = [
-  {id:1,day:'第一天',date:'2026年4月14日',title:'开幕日盛典',subtitle:'Opening Day',tier:'free',summary:'米兰设计周开幕首日，参观Salone del Mobile主展馆和Brera设计区。',activities:[{time:'09:00',title:'Salone del Mobile 开幕仪式'},{time:'11:00',title:'主展馆参观'},{time:'14:00',title:'Brera区探索'},{time:'18:00',title:'开幕酒会'}]},
-  {id:2,day:'第二天',date:'2026年4月15日',title:'设计区巡礼',subtitle:'Design Districts Tour',tier:'free',summary:'游览米兰著名的Tortona和5vie设计区，体验外围展的创意氛围。',activities:[{time:'10:00',title:'Tortona区参观'},{time:'13:00',title:'午餐休息'},{time:'15:00',title:'5vie设计区'},{time:'19:00',title:'设计之夜派对'}]},
-  {id:3,day:'第三天',date:'2026年4月16日',title:'深度专题日',subtitle:'Deep Dive Day',tier:'vip',summary:'VIP专场活动日，包括设计师见面会和私人收藏展参观。',activities:[{time:'09:30',title:'VIP专场导览'},{time:'12:00',title:'设计师见面会'},{time:'15:00',title:'私人收藏展参观'},{time:'20:00',title:'高端晚宴'}]},
-  {id:4,day:'第四天',date:'2026年4月17日',title:'创新与可持续',subtitle:'Innovation & Sustainability',tier:'vip',summary:'专注于创新设计和可持续发展主题。',activities:[{time:'10:00',title:'可持续设计展览'},{time:'13:00',title:'创新材料工作坊'},{time:'16:00',title:'设计师对话论坛'},{time:'19:00',title:'环保主题晚会'}]},
-  {id:5,day:'第五天',date:'2026年4月18日',title:'奢华品牌日',subtitle:'Luxury Brand Day',tier:'premium',summary:'探访国际顶级设计品牌的私密展厅，体验PREMIUM专属服务。',activities:[{time:'09:00',title:'顶级品牌私密展厅'},{time:'12:00',title:'米其林午餐'},{time:'15:00',title:'设计大师工作室参观'},{time:'18:00',title:'限量版作品预览'},{time:'20:00',title:'PREMIUM会员晚宴'}]},
-];
-function renderDaily() {
-  document.getElementById('daily-list').innerHTML = DAILY_PLANS.map(p => {
-    const locked = !isUnlocked(p.tier) && (p.tier === 'vip' || p.tier === 'premium');
-    const acts = p.activities.map(a => `<div class="activity-row"><div class="activity-time">${a.time}</div><div class="activity-title">${a.title}</div></div>`).join('');
-    const lockBar = locked ? `<div class="plan-lock"><span style="font-size:14px">🔒</span><span class="plan-lock-text">需要${p.tier==='premium'?'PREMIUM':'VIP'}权限解锁</span><button class="unlock-btn" onclick="switchTab('me')">立即解锁</button></div>` : '';
-    return `<div class="plan-card"><div class="plan-header"><div class="plan-day">${p.day}</div><div class="plan-date">${p.date}</div></div><div class="plan-title-row"><span class="plan-title">${p.title}</span><span class="plan-en">${p.subtitle}</span></div><div class="plan-summary">${p.summary}</div>${locked ? '' : '<div class="plan-body">' + acts + '</div>'}${lockBar}</div>`;
-  }).join('');
-}
-
 // ── 深度分析 ──
 async function renderDaily() {
   const el = document.getElementById('daily-list');
