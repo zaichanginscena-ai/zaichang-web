@@ -358,8 +358,31 @@ let userTier = localStorage.getItem('userTier') || 'free'; // free | vip | premi
 // ── 付款成功检测 ──
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get('payment') === 'success') {
-  checkAccess();
+  const tier = urlParams.get('tier') || 'vip';
+  userTier = tier;
+  localStorage.setItem('userTier', tier);
   history.replaceState({}, '', window.location.pathname);
+  setTimeout(() => showPaymentSuccess(tier), 300);
+  checkAccess();
+}
+
+function showPaymentSuccess(tier) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(45,55,50,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px';
+  overlay.innerHTML = `
+    <div style="background:#fafbf7;border-radius:20px;padding:32px 24px;text-align:center;max-width:320px;width:100%">
+      <div style="font-size:48px;margin-bottom:16px">🎉</div>
+      <div style="font-size:18px;font-weight:600;color:#3d5248;margin-bottom:8px">解锁成功！</div>
+      <div style="font-size:13px;color:#8a9a8e;margin-bottom:24px;line-height:1.6">
+        欢迎使用 ${tier === 'premium' ? 'PREMIUM' : 'VIP'} 内容<br/>所有专属内容现已为您开放
+      </div>
+      <button onclick="this.parentElement.parentElement.remove();switchTab('exhibitions')"
+        style="background:#2d4a3e;color:#fff;border:none;border-radius:12px;padding:12px 32px;font-size:14px;cursor:pointer;font-family:inherit;width:100%">
+        开始探索
+      </button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
 }
 
 async function checkAccess() {
